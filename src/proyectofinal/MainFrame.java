@@ -1,6 +1,12 @@
 
 package proyectofinal;
 
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.KeyStroke;
+
 public class MainFrame extends javax.swing.JFrame {
 
     private PlayArea SaveParameter;
@@ -11,8 +17,63 @@ public class MainFrame extends javax.swing.JFrame {
         SaveParameter=new PlayArea(ContainThePlayArea,10);
         this.add(SaveParameter);
         
+        Controls();
+        
         StartGame();
     }
+    /* Este metodo se encarga de los atajos de teclado o las pulsaciones
+    del teclado*/
+    private void Controls()
+    {
+       InputMap in=this.getRootPane().getInputMap();
+       ActionMap ac=this.getRootPane().getActionMap();
+       KeyStroke keyStroke;
+       
+       /*Obtencion de las pulsacion de la flecha de la derecha*/
+       in.put(KeyStroke.getKeyStroke("RIGHT"), "right");
+       
+       /*Obtencion de las pulsacion de la flecha de la izquerda*/
+       in.put(KeyStroke.getKeyStroke("LEFT"), "left");
+       
+       /*Obtencion de las pulsacion de la flecha hacia arriba*/
+       in.put(KeyStroke.getKeyStroke("UP"), "up");
+       
+       /*Obtencion de las pulsacion de la flecha hacia abajo*/
+       in.put(KeyStroke.getKeyStroke("DOWN"), "down");
+       
+       /*Agrega una accion al mapa de accion*/
+       ac.put("right",new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+                SaveParameter.moveBlockRight();
+           }
+           
+       });
+       
+       ac.put("left", new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+                SaveParameter.moveBlockLeft();
+           }
+           
+       });
+       
+       ac.put("up",new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               SaveParameter.RotateBlock();
+           }
+           
+       });
+       
+       ac.put("down", new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               SaveParameter.BlockDown();
+           }
+           
+       });
+    }        
 
     /* Metodo responsable de crear un objeto tipo hilo.*/
     public void StartGame()
@@ -26,7 +87,6 @@ public class MainFrame extends javax.swing.JFrame {
         ContainThePlayArea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(760, 616));
 
         ContainThePlayArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         ContainThePlayArea.setPreferredSize(new java.awt.Dimension(300, 550));

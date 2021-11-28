@@ -18,18 +18,22 @@ public class ThreadOne extends Thread
     public void run()
     {
         /* Loop encargado de mover el bloque despues de esperar
-        el tiempo estimado en el hilo.*/
+        el tiempo estimado en el hilo. Se corre mientras jugamos*/
         while(true)
-        {    
-            try 
+        {   
+            /* Crear otro bloque mientras el primero llego al fondo*/
+            SaveParameter.SpawnBlock();
+            while (SaveParameter.BlockDown())
             {
-                SaveParameter.BlockDown();
-                Thread.sleep(100);
-            }
-                catch (InterruptedException ex) 
+                try 
                 {
-                    Logger.getLogger(ThreadOne.class.getName()).log(Level.SEVERE, null, ex);
+                    Thread.sleep(300);
                 }
-        }
+                    catch (InterruptedException ex) 
+                    {
+                        Logger.getLogger(ThreadOne.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
+        } 
     }        
 }

@@ -19,6 +19,8 @@ public class PlayArea extends JPanel
     /*Declaracion de una variable tipo bloque*/
     private TetrisBlock block;
     
+    private Color[][] BackgroundColor;
+    
     public PlayArea(JPanel ContainThePlayArea, int columns)
     {
         ContainThePlayArea.setVisible(false);
@@ -30,7 +32,7 @@ public class PlayArea extends JPanel
         tableCellSize=this.getBounds().width/tableColumns;
         tableRows=this.getBounds().height/tableCellSize;
         
-        SpawnBlock();
+        BackgroundColor=new Color[tableRows][tableColumns];
     }
     
     /*Metodo responsable de spawnear bloques, dentro del metodo
@@ -44,13 +46,50 @@ public class PlayArea extends JPanel
     /*Metodo responsable de que el bloque caiga hacia abajo, lo que hace es
     llamar un metodo para ir hacia abajo y se va repintar el bloque en la 
     nueva posicion con respecto al eje i, j.*/
-    public void BlockDown()
+    public boolean BlockDown()
     {
-        if(GridBotton()==false)return;
+        if(GridBotton()==false)
+        {
+            MoveBlockToBackgroud();
+            return false;
+        }
         
         block.Down();
         repaint();
+        
+        return true;
     }
+    
+    /* Los metodos acontinuacion son los encargados del movimiento de
+    los bloques y la rotacion.*/
+    public void moveBlockRight()
+    {
+        if(!GridRight())return;
+        
+        block.Right();
+        repaint();
+    }
+    
+    public void moveBlockLeft()
+    {
+        if(!GridLeft())return;
+        block.Left();
+        repaint();
+    }
+       
+    public void moveBlockDown()
+    {
+        repaint();
+    }
+    
+    public void RotateBlock()
+    {
+        block.rotate();
+        repaint();
+    }
+    
+    
+    
     
     /*Metodo encargado de decir si el bloque puede mover hacia abajo o no*/
     private boolean GridBotton()
@@ -58,8 +97,108 @@ public class PlayArea extends JPanel
       if(block.getBottom()==tableRows)
       {
           return false;
+      } 
+      
+      int[][] shape=block.getshape();
+      int w=block.getWidth();
+      int h=block.getHeight();
+      
+      for(int columns=0;columns<w;columns++)
+      {
+         for(int Row=h-1;Row>=0;Row--)
+         {
+             if(shape[Row][columns] !=0)
+             {
+                 int i= columns+block.getI();
+                 int j=Row+block.getJ()+1;
+                 if(j<0)break;
+                 if(BackgroundColor[j][i]!=null)return false;
+                 break;
+             }    
+         }    
       }    
+      
       return true;
+    }
+    
+    /*Los metodos acontinuacion son los encargados de chequear que los bloques
+    no atraviesen el area de juego por la izquierda o derecha.*/
+    private boolean GridRight()
+    {
+        if(block.getRightLimit()==tableColumns) return false;
+        
+      int[][] shape=block.getshape();
+      int w=block.getWidth();
+      int h=block.getHeight();
+      
+      for(int row=0;row<h;row++)
+      {
+         for(int colum=w-1;colum>=0;colum--)
+         {
+             if(shape[row][colum] !=0)
+             {
+                 int i= colum+block.getI()+1;
+                 int j=row+block.getJ();
+                 if(j<0)break;
+                 if(BackgroundColor[j][i]!=null)return false;
+                 break;
+             }    
+         }    
+      }   
+      
+        
+        return true;
+    }  
+    
+    private boolean GridLeft()
+    {
+        if(block.getLeftLimit()==0) return false;
+        
+      int[][] shape=block.getshape();
+      int w=block.getWidth();
+      int h=block.getHeight();
+      
+      for(int row=0;row<h;row++)
+      {
+         for(int colum=0;colum<w;colum++)
+         {
+             if(shape[row][colum] !=0)
+             {
+                 int i= colum+block.getI()-1;
+                 int j=row+block.getJ();
+                 if(j<0)break;
+                 if(BackgroundColor[j][i]!=null)return false;
+                 break;
+             }    
+         }    
+      }   
+        
+        return true;
+    }    
+    
+    
+    /*Este metodo va a chequear cada elemento actual del shape array
+    y si el elemento es igual a 1 el motdo va enviar el elemento correspondiente
+    del Backgroud array.*/
+    private void MoveBlockToBackgroud()
+    {
+        int [][] shape= block.getshape();
+        int h=block.getHeight();
+        int w= block.getWidth();
+        int Iposcition=block.getI();
+        int Jposcition=block.getJ();
+        Color color=block.getcolor();
+        
+        for(int q=0;q<h;q++)
+        {
+            for(int e=0; e<w;e++)
+            {
+                if(shape[q][e]==1)
+                {
+                  BackgroundColor[q+Jposcition][e+Iposcition]  =color;
+                }    
+            }    
+        }    
     }        
     
     /*Este metodo lo utilizamos para dibujar una figura y vizualizarla en el area de
@@ -79,14 +218,43 @@ public class PlayArea extends JPanel
                {
                    int i=(block.getI()+columns)*tableCellSize;
                    int j=(block.getJ()+rows)*tableCellSize;
-                   g.setColor(color);
-                   g.fillRect(i, j, tableCellSize, tableCellSize);
-                   g.setColor(Color.BLACK);
-                   g.drawRect(i, j, tableCellSize, tableCellSize);
+                    DrawSquare(g,color,i,j);
                }    
             }    
         }    
     }
+    
+    /* Metodo encargado de dibujar el contenido del fondo en el array en el
+    area de juego*/
+    private void DrawBackground(Graphics g)
+    {
+        Color color;
+        
+        for(int b=0;b<tableRows;b++)
+        {
+            for(int c=0; c<tableColumns;c++)
+            {
+                color=BackgroundColor[b][c];
+                
+                if(color !=null)
+                {
+                   int i= c*tableCellSize;
+                   int j=b*tableCellSize;
+                   DrawSquare(g,color,i,j);
+                }    
+            }    
+        }    
+    }
+    
+    /*Metodo encargado de de dibujar un solo cuadrado en la cuadricula*/
+    private void DrawSquare(Graphics g,Color color, int i, int j)
+    {
+       g.setColor(color);
+       g.fillRect(i, j, tableCellSize, tableCellSize);
+       g.setColor(Color.BLACK);
+       g.drawRect(i, j, tableCellSize, tableCellSize);          
+    }        
+    
     
     /* El metodo paintComponent es el encargado
     de agregar cosas al area de juego o el panel.
@@ -95,7 +263,7 @@ public class PlayArea extends JPanel
    protected void paintComponent(Graphics g) 
    {
       super.paintComponent(g);
-    
+      DrawBackground(g);
       DrawBlock(g);
    }
 }

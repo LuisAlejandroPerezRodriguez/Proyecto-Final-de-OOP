@@ -15,16 +15,46 @@ public class TetrisBlock
     private int[][] shape;
     private Color color;
     private int i,j;
+    private int [][][] shapes;
+    private int CurrentRotation;
     
     public TetrisBlock(int[][] shape, Color color)
     {
         this.shape=shape;
         this.color=color;
+        
+        initshapes();
+    } 
+    
+    private void initshapes()
+    {
+        shapes= new int[4][][];
+        
+        for(int i=0;i<4;i++)
+        {
+            int a=shape[0].length;
+            int b=shape.length;
+            
+            shapes[i]=new int[a][b];
+            
+            for(int k=0; k<a;k++)
+            {
+                for(int x=0; x<b;x++)
+                {
+                    shapes[i][k][x]=shape[b-x-1][k];
+                }    
+            } 
+            
+            shape=shapes[i];
+        }    
     }        
     
     /*Metodo encargado de generar el bloque en el centro del area jugable.*/
     public void Spawn(int width)
     {
+        CurrentRotation=0;
+        shape=shapes[CurrentRotation];
+        
         j=-getHeight();
         i=(width-getWidth())/2;
     }        
@@ -52,6 +82,21 @@ public class TetrisBlock
     
     public void Right(){i++;}
     
-    /* Metodo encargado de calcular las cordenadas en j y la altura del bloque.  */
+    /*Metodo responsable de rotar el bloque*/
+    public void rotate()
+    {
+        CurrentRotation++;
+        if(CurrentRotation>3) CurrentRotation=0;
+        shape=shapes[CurrentRotation];
+    }        
+    
+    /* Metodo encargado de calcular las cordenadas en j y la altura del bloque.*/
     public int getBottom(){return j + getHeight();}
+    
+    /* Metodos que retornar los limites derechos y izquerdos del area de juesgo.*/
+    public int getLeftLimit(){return i;}
+    
+     public int getRightLimit(){return i+getWidth();}
+    
+    
 }
