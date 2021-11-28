@@ -1,8 +1,10 @@
 
 package proyectofinal;
 
+import Blocks.*;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 import javax.swing.JPanel;
 
 public class PlayArea extends JPanel
@@ -21,6 +23,8 @@ public class PlayArea extends JPanel
     
     private Color[][] BackgroundColor;
     
+    private TetrisBlock[] Blocks;
+    
     public PlayArea(JPanel ContainThePlayArea, int columns)
     {
         ContainThePlayArea.setVisible(false);
@@ -33,16 +37,32 @@ public class PlayArea extends JPanel
         tableRows=this.getBounds().height/tableCellSize;
         
         BackgroundColor=new Color[tableRows][tableColumns];
+        
+        Blocks=new TetrisBlock[]{new IShape(),new JShape(), new LShape(),
+        new OShape(), new SShape(),new TShape(),new ZShape()};
     }
     
     /*Metodo responsable de spawnear bloques, dentro del metodo
     instanciamos el bloque y por ahora le asignamos un color.*/
     public void SpawnBlock()
     {
-        block=new TetrisBlock(new int[][]{ {1,0},{1,0},{1,1} },Color.GREEN);
+        Random r=new Random();
+        block=Blocks[r.nextInt(Blocks.length)];
         block.Spawn(tableColumns);
     }    
     
+    /*Metodo que me indica que el bloque esta fuera del area de juego*/
+    public boolean BlockOutOfBounds()
+    {
+        if(block.getJ()<0)
+        {
+            block=null;
+            return true;
+        }    
+        
+        return false;
+    } 
+
     /*Metodo responsable de que el bloque caiga hacia abajo, lo que hace es
     llamar un metodo para ir hacia abajo y se va repintar el bloque en la 
     nueva posicion con respecto al eje i, j.*/
@@ -50,7 +70,6 @@ public class PlayArea extends JPanel
     {
         if(GridBotton()==false)
         {
-            MoveBlockToBackgroud();
             return false;
         }
         
@@ -59,11 +78,13 @@ public class PlayArea extends JPanel
         
         return true;
     }
+           
     
     /* Los metodos acontinuacion son los encargados del movimiento de
     los bloques y la rotacion.*/
     public void moveBlockRight()
     {
+        if(block==null)return;
         if(!GridRight())return;
         
         block.Right();
@@ -72,6 +93,7 @@ public class PlayArea extends JPanel
     
     public void moveBlockLeft()
     {
+        if(block==null)return;
         if(!GridLeft())return;
         block.Left();
         repaint();
@@ -79,18 +101,23 @@ public class PlayArea extends JPanel
        
     public void moveBlockDown()
     {
+       if(block==null)return;
         repaint();
     }
     
     public void RotateBlock()
     {
+        if(block==null)return;
         block.rotate();
+        
+        if(block.getLeftLimit()<0)block.setI(0);
+        if(block.getRightLimit()>=tableColumns)block.setI(tableColumns-block.getWidth());
+        if(block.getBottom()>=tableRows)block.setJ(tableRows-block.getHeight());
+        
         repaint();
     }
     
-    
-    
-    
+
     /*Metodo encargado de decir si el bloque puede mover hacia abajo o no*/
     private boolean GridBotton()
     {
@@ -176,11 +203,65 @@ public class PlayArea extends JPanel
         return true;
     }    
     
+    /*Metodo que limpia las lineas cuando se completan*/
+    public int ClearLastLine()
+    {
+        boolean Line;
+        int LinesCleared=0;
+        
+        for (int a=tableRows-1;a>=0;a--)
+        {
+            Line=true;
+            
+            for(int b=0;b<tableColumns;b++)
+            {
+                if(BackgroundColor[a][b]==null)
+                {
+                    Line=false;
+                    break;
+                }    
+            }
+            
+            if(Line)
+            {
+             LinesCleared++;   
+             ClearLine(a);
+             HaciaAbajo(a);
+             ClearLine(0);
+             
+             a++;
+             
+             repaint();
+            }    
+            
+        } 
+        return LinesCleared; 
+    }  
+    
+    /* Logica para borrar lineas*/
+    private void ClearLine(int a)
+    {
+         for(int i=0;i<tableColumns;i++)
+              {
+                  BackgroundColor[a][i]=null;
+              }
+    }
+    
+    private void HaciaAbajo(int a)
+    {
+        for(int row=a;row>0;row--)
+        {
+            for(int colm=0;colm<tableColumns;colm++)
+            {
+                BackgroundColor[row][colm]=BackgroundColor[row-1][colm];
+            }    
+        }    
+    }        
     
     /*Este metodo va a chequear cada elemento actual del shape array
     y si el elemento es igual a 1 el motdo va enviar el elemento correspondiente
     del Backgroud array.*/
-    private void MoveBlockToBackgroud()
+    public void MoveBlockToBackgroud()
     {
         int [][] shape= block.getshape();
         int h=block.getHeight();
@@ -221,7 +302,27 @@ public class PlayArea extends JPanel
                     DrawSquare(g,color,i,j);
                }    
             }    
-        }    
+        }
+        
+        for(int row = 0; row < hight; row++) {
+           for( int col = 0; col < width; col++) {
+               if(figura[row][col] != 0) {
+                   int x = col + block.getI();
+                   int y = row + block.getJ();
+                   if(y < 0)
+                       break;
+                   if(BackgroundColor[y][x] != null){
+                       block.rotateBack();
+                       repaint();
+                       return;
+                   }
+                       
+               }
+           }
+       }
+        
+        repaint();
+        
     }
     
     /* Metodo encargado de dibujar el contenido del fondo en el array en el

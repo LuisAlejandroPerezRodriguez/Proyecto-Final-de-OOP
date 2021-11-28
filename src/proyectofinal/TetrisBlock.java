@@ -2,6 +2,7 @@
 package proyectofinal;
 
 import java.awt.Color;
+import java.util.Random;
 
 /*Se creo esta clase para poder manejar el codigo mejor,
 ya que teniamos que acceder a PlayArea para poder manejar 
@@ -17,11 +18,11 @@ public class TetrisBlock
     private int i,j;
     private int [][][] shapes;
     private int CurrentRotation;
+    private Color [] AvaibleColors={Color.CYAN,Color.BLUE,Color.ORANGE,Color.YELLOW,Color.GREEN,Color.MAGENTA,Color.RED};
     
-    public TetrisBlock(int[][] shape, Color color)
+    public TetrisBlock(int[][] shape)
     {
         this.shape=shape;
-        this.color=color;
         
         initshapes();
     } 
@@ -47,16 +48,29 @@ public class TetrisBlock
             
             shape=shapes[i];
         }    
-    }        
+    }
+    
+    /*Metodo para arreglar bug de que los bloques se atravisen cuando rotan*/
+     public void rotateBack() {
+        CurrentRotation--;
+        if (CurrentRotation < 0) {
+            CurrentRotation = 3;
+        }
+        shape = shapes[CurrentRotation];
+    }
     
     /*Metodo encargado de generar el bloque en el centro del area jugable.*/
     public void Spawn(int width)
     {
-        CurrentRotation=0;
+        Random r=new Random();
+        
+        CurrentRotation=r.nextInt(4);
         shape=shapes[CurrentRotation];
         
         j=-getHeight();
-        i=(width-getWidth())/2;
+        i=r.nextInt(width-getWidth());
+        
+        color=AvaibleColors[r.nextInt(AvaibleColors.length)];
     }        
     
     /* Declaramos los metodos geters para poder acceder
@@ -72,7 +86,11 @@ public class TetrisBlock
     
     public int getI(){return i;}
     
+    public void setI(int newI){i=newI;}
+    
     public int getJ(){return j;}
+    
+    public void setJ(int newJ){j=newJ;}
     
     /*Metodos responsables del movimiento del bloque ya sea
     hacia abajo, izquierda y derecha.*/
