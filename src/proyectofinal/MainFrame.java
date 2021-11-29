@@ -3,13 +3,22 @@ package proyectofinal;
 
 public class MainFrame extends javax.swing.JFrame {
 
+    private PlayArea SaveParameter;
     public MainFrame() {
         
         initComponents();
         
-        this.add(new PlayArea(ContainThePlayArea,10));
+        SaveParameter=new PlayArea(ContainThePlayArea,10);
+        this.add(SaveParameter);
+        
+        StartGame();
     }
 
+    /* Metodo responsable de crear un objeto tipo hilo.*/
+    public void StartGame()
+    {
+        new ThreadOne(SaveParameter).start();
+    }        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -17,7 +26,6 @@ public class MainFrame extends javax.swing.JFrame {
         ContainThePlayArea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(760, 616));
 
         ContainThePlayArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         ContainThePlayArea.setPreferredSize(new java.awt.Dimension(300, 550));
@@ -30,7 +38,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         ContainThePlayAreaLayout.setVerticalGroup(
             ContainThePlayAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 528, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -45,8 +53,8 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
