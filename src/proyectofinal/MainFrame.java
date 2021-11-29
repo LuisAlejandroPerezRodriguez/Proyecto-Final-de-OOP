@@ -10,6 +10,8 @@ import javax.swing.KeyStroke;
 public class MainFrame extends javax.swing.JFrame {
 
     private PlayArea SaveParameter;
+    private ThreadOne to;
+    
     public MainFrame() {
         
         initComponents();
@@ -19,7 +21,6 @@ public class MainFrame extends javax.swing.JFrame {
         
         Controls();
         
-        StartGame();
     }
     /* Este metodo se encarga de los atajos de teclado o las pulsaciones
     del teclado*/
@@ -78,7 +79,9 @@ public class MainFrame extends javax.swing.JFrame {
     /* Metodo responsable de crear un objeto tipo hilo.*/
     public void StartGame()
     {
-        new ThreadOne(SaveParameter,this).start();
+       SaveParameter.ResetBackgroundArray();
+       to= new ThreadOne(SaveParameter,this);
+       to.start();
     } 
     
     /*Metodo encargado de actualizar los puntos obtenidos*/
@@ -100,6 +103,7 @@ public class MainFrame extends javax.swing.JFrame {
         ContainThePlayArea = new javax.swing.JPanel();
         ScoreLabel = new javax.swing.JLabel();
         LevelLabel = new javax.swing.JLabel();
+        MainMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,17 +127,30 @@ public class MainFrame extends javax.swing.JFrame {
         LevelLabel.setFont(new java.awt.Font("Rockwell", 3, 24)); // NOI18N
         LevelLabel.setText("Level: 1");
 
+        MainMenu.setText("Main Menu");
+        MainMenu.setFocusable(false);
+        MainMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MainMenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 370, Short.MAX_VALUE)
-                .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 370, Short.MAX_VALUE)
+                        .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -148,6 +165,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -155,6 +174,13 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuActionPerformed
+        
+        to.interrupt();
+        this.setVisible(false);
+        Proyectofinal.ShowMainMenu();
+    }//GEN-LAST:event_MainMenuActionPerformed
 
     
     public static void main(String args[]) {
@@ -191,6 +217,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContainThePlayArea;
     private javax.swing.JLabel LevelLabel;
+    private javax.swing.JButton MainMenu;
     private javax.swing.JLabel ScoreLabel;
     // End of variables declaration//GEN-END:variables
 }

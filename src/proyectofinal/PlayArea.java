@@ -27,7 +27,7 @@ public class PlayArea extends JPanel
     
     public PlayArea(JPanel ContainThePlayArea, int columns)
     {
-        ContainThePlayArea.setVisible(false);
+        //ContainThePlayArea.setVisible(false);
         this.setBounds(ContainThePlayArea.getBounds());
         this.setBackground(ContainThePlayArea.getBackground());
         this.setBorder(ContainThePlayArea.getBorder());
@@ -36,11 +36,15 @@ public class PlayArea extends JPanel
         tableCellSize=this.getBounds().width/tableColumns;
         tableRows=this.getBounds().height/tableCellSize;
         
-        BackgroundColor=new Color[tableRows][tableColumns];
         
         Blocks=new TetrisBlock[]{new IShape(),new JShape(), new LShape(),
         new OShape(), new SShape(),new TShape(),new ZShape()};
     }
+    
+    public void ResetBackgroundArray()
+    {
+       BackgroundColor=new Color[tableRows][tableColumns];
+    }        
     
     /*Metodo responsable de spawnear bloques, dentro del metodo
     instanciamos el bloque y por ahora le asignamos un color.*/
