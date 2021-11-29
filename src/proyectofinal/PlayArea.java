@@ -43,6 +43,18 @@ public class PlayArea extends JPanel
         block.Spawn(tableColumns);
     }    
     
+    /*Metodo que me indica que el bloque esta fuera del area de juego*/
+    public boolean BlockOutOfBounds()
+    {
+        if(block.getJ()<0)
+        {
+            block=null;
+            return true;
+        }    
+        
+        return false;
+    } 
+
     /*Metodo responsable de que el bloque caiga hacia abajo, lo que hace es
     llamar un metodo para ir hacia abajo y se va repintar el bloque en la 
     nueva posicion con respecto al eje i, j.*/
@@ -50,7 +62,6 @@ public class PlayArea extends JPanel
     {
         if(GridBotton()==false)
         {
-            MoveBlockToBackgroud();
             return false;
         }
         
@@ -59,21 +70,184 @@ public class PlayArea extends JPanel
         
         return true;
     }
+           
     
+    /* Los metodos acontinuacion son los encargados del movimiento de
+    los bloques y la rotacion.*/
+    public void moveBlockRight()
+    {
+        if(block==null)return;
+        if(!GridRight())return;
+        
+        block.Right();
+        repaint();
+    }
+    
+    public void moveBlockLeft()
+    {
+        if(block==null)return;
+        if(!GridLeft())return;
+        block.Left();
+        repaint();
+    }
+       
+    public void moveBlockDown()
+    {
+       if(block==null)return;
+        repaint();
+    }
+    
+    public void RotateBlock()
+    {
+        if(block==null)return;
+        block.rotate();
+        repaint();
+    }
+
     /*Metodo encargado de decir si el bloque puede mover hacia abajo o no*/
     private boolean GridBotton()
     {
       if(block.getBottom()==tableRows)
       {
           return false;
+      } 
+      
+      int[][] shape=block.getshape();
+      int w=block.getWidth();
+      int h=block.getHeight();
+      
+      for(int columns=0;columns<w;columns++)
+      {
+         for(int Row=h-1;Row>=0;Row--)
+         {
+             if(shape[Row][columns] !=0)
+             {
+                 int i= columns+block.getI();
+                 int j=Row+block.getJ()+1;
+                 if(j<0)break;
+                 if(BackgroundColor[j][i]!=null)return false;
+                 break;
+             }    
+         }    
       }    
+      
       return true;
     }
+    
+    /*Los metodos acontinuacion son los encargados de chequear que los bloques
+    no atraviesen el area de juego por la izquierda o derecha.*/
+    private boolean GridRight()
+    {
+        if(block.getRightLimit()==tableColumns) return false;
+        
+      int[][] shape=block.getshape();
+      int w=block.getWidth();
+      int h=block.getHeight();
+      
+      for(int row=0;row<h;row++)
+      {
+         for(int colum=w-1;colum>=0;colum--)
+         {
+             if(shape[row][colum] !=0)
+             {
+                 int i= colum+block.getI()+1;
+                 int j=row+block.getJ();
+                 if(j<0)break;
+                 if(BackgroundColor[j][i]!=null)return false;
+                 break;
+             }    
+         }    
+      }   
+      
+        
+        return true;
+    }  
+    
+    private boolean GridLeft()
+    {
+        if(block.getLeftLimit()==0) return false;
+        
+      int[][] shape=block.getshape();
+      int w=block.getWidth();
+      int h=block.getHeight();
+      
+      for(int row=0;row<h;row++)
+      {
+         for(int colum=0;colum<w;colum++)
+         {
+             if(shape[row][colum] !=0)
+             {
+                 int i= colum+block.getI()-1;
+                 int j=row+block.getJ();
+                 if(j<0)break;
+                 if(BackgroundColor[j][i]!=null)return false;
+                 break;
+             }    
+         }    
+      }   
+        
+        return true;
+    }    
+    
+    /*Metodo que limpia las lineas cuando se completan*/
+    public int ClearLastLine()
+    {
+        boolean Line;
+        int LinesCleared=0;
+        
+        for (int a=tableRows-1;a>=0;a--)
+        {
+            Line=true;
+            
+            for(int b=0;b<tableColumns;b++)
+            {
+                if(BackgroundColor[a][b]==null)
+                {
+                    Line=false;
+                    break;
+                }    
+            }
+            
+            if(Line)
+            {
+             LinesCleared++;   
+             ClearLine(a);
+             HaciaAbajo(a);
+             ClearLine(0);
+             
+             a++;
+             
+             repaint();
+            }    
+            
+        } 
+        return LinesCleared; 
+    }  
+    
+    /* Logica para borrar lineas*/
+    private void ClearLine(int a)
+    {
+         for(int i=0;i<tableColumns;i++)
+              {
+                  BackgroundColor[a][i]=null;
+              }
+    }
+    
+    private void HaciaAbajo(int a)
+    {
+        for(int row=a;row>0;row--)
+        {
+            for(int colm=0;colm<tableColumns;colm++)
+            {
+                BackgroundColor[row][colm]=BackgroundColor[row-1][colm];
+            }    
+        }    
+    }        
     
     /*Este metodo va a chequear cada elemento actual del shape array
     y si el elemento es igual a 1 el motdo va enviar el elemento correspondiente
     del Backgroud array.*/
-    private void MoveBlockToBackgroud()
+    public void MoveBlockToBackgroud()
     {
         int [][] shape= block.getshape();
         int h=block.getHeight();

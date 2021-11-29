@@ -8,10 +8,17 @@ separado de los demas metodos y clases.*/
 public class ThreadOne extends Thread
 {
     private PlayArea SaveParameter;
+    private MainFrame gf;
+    private int score;
+    private int level=1;
+    private int ScorePerLevel=1;
+    private int Gamerunning =300;
+    private int SpeedPerLevel=100;
     
-    public ThreadOne(PlayArea SaveParameter)
+    public ThreadOne(PlayArea SaveParameter,MainFrame gf )
     {
         this.SaveParameter=SaveParameter;
+        this.gf=gf;
     } 
     
     @Override
@@ -23,17 +30,36 @@ public class ThreadOne extends Thread
         {   
             /* Crear otro bloque mientras el primero llego al fondo*/
             SaveParameter.SpawnBlock();
+            
             while (SaveParameter.BlockDown())
             {
                 try 
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(Gamerunning);
                 }
                     catch (InterruptedException ex) 
                     {
                         Logger.getLogger(ThreadOne.class.getName()).log(Level.SEVERE, null, ex);
                     }
             }
+            
+            if(SaveParameter.BlockOutOfBounds())
+            {
+                System.out.println("Game over");
+                break;
+            }
+            
+            SaveParameter.MoveBlockToBackgroud();
+            score+=SaveParameter.ClearLastLine();
+            gf.UpdateScore(score);
+            
+            int lvl=score/ScorePerLevel+1;
+            if(lvl>level)
+            {
+                level=lvl;
+                gf.UpdateLevel(level);
+                Gamerunning-=SpeedPerLevel;
+            }    
         } 
     }        
 }
