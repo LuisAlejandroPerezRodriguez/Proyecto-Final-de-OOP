@@ -19,6 +19,9 @@ public class ThreadOne extends Thread
     {
         this.SaveParameter=SaveParameter;
         this.gf=gf;
+        
+        gf.UpdateScore(score);
+        gf.UpdateLevel(level);
     } 
     
     @Override
@@ -39,13 +42,13 @@ public class ThreadOne extends Thread
                 }
                     catch (InterruptedException ex) 
                     {
-                        Logger.getLogger(ThreadOne.class.getName()).log(Level.SEVERE, null, ex);
+                        return;
                     }
             }
             
             if(SaveParameter.BlockOutOfBounds())
             {
-                System.out.println("Game over");
+                Proyectofinal.GameOver(score);
                 break;
             }
             

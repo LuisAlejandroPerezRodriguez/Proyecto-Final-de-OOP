@@ -1,8 +1,10 @@
 
 package proyectofinal;
 
+import Blocks.*;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 import javax.swing.JPanel;
 
 public class PlayArea extends JPanel
@@ -21,9 +23,11 @@ public class PlayArea extends JPanel
     
     private Color[][] BackgroundColor;
     
+    private TetrisBlock[] Blocks;
+    
     public PlayArea(JPanel ContainThePlayArea, int columns)
     {
-        ContainThePlayArea.setVisible(false);
+        //ContainThePlayArea.setVisible(false);
         this.setBounds(ContainThePlayArea.getBounds());
         this.setBackground(ContainThePlayArea.getBackground());
         this.setBorder(ContainThePlayArea.getBorder());
@@ -32,14 +36,22 @@ public class PlayArea extends JPanel
         tableCellSize=this.getBounds().width/tableColumns;
         tableRows=this.getBounds().height/tableCellSize;
         
-        BackgroundColor=new Color[tableRows][tableColumns];
+        
+        Blocks=new TetrisBlock[]{new IShape(),new JShape(), new LShape(),
+        new OShape(), new SShape(),new TShape(),new ZShape()};
     }
+    
+    public void ResetBackgroundArray()
+    {
+       BackgroundColor=new Color[tableRows][tableColumns];
+    }        
     
     /*Metodo responsable de spawnear bloques, dentro del metodo
     instanciamos el bloque y por ahora le asignamos un color.*/
     public void SpawnBlock()
     {
-        block=new TetrisBlock(new int[][]{ {1,0},{1,0},{1,1} },Color.GREEN);
+        Random r=new Random();
+        block=Blocks[r.nextInt(Blocks.length)];
         block.Spawn(tableColumns);
     }    
     
@@ -101,8 +113,14 @@ public class PlayArea extends JPanel
     {
         if(block==null)return;
         block.rotate();
+        
+        if(block.getLeftLimit()<0)block.setI(0);
+        if(block.getRightLimit()>=tableColumns)block.setI(tableColumns-block.getWidth());
+        if(block.getBottom()>=tableRows)block.setJ(tableRows-block.getHeight());
+        
         repaint();
     }
+    
 
     /*Metodo encargado de decir si el bloque puede mover hacia abajo o no*/
     private boolean GridBotton()
@@ -288,7 +306,27 @@ public class PlayArea extends JPanel
                     DrawSquare(g,color,i,j);
                }    
             }    
-        }    
+        }
+        
+        for(int row = 0; row < hight; row++) {
+           for( int col = 0; col < width; col++) {
+               if(figura[row][col] != 0) {
+                   int x = col + block.getI();
+                   int y = row + block.getJ();
+                   if(y < 0)
+                       break;
+                   if(BackgroundColor[y][x] != null){
+                       block.rotateBack();
+                       repaint();
+                       return;
+                   }
+                       
+               }
+           }
+       }
+        
+        repaint();
+        
     }
     
     /* Metodo encargado de dibujar el contenido del fondo en el array en el
