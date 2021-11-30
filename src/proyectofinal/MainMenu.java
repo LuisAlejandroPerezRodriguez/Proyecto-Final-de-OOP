@@ -5,17 +5,19 @@
  */
 package proyectofinal;
 
+import java.applet.AudioClip;
+
 /**
  *
  * @author luisa
  */
 public class MainMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainMenu
-     */
+    private boolean p=true;
     public MainMenu() {
         initComponents();
+
+        Proyectofinal.playMainMenu(this.p);     
     }
 
     /**
@@ -31,10 +33,9 @@ public class MainMenu extends javax.swing.JFrame {
         Leaderboard = new javax.swing.JButton();
         Titulo = new javax.swing.JLabel();
         Exit = new javax.swing.JButton();
-        Fondo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(820, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -46,6 +47,17 @@ public class MainMenu extends javax.swing.JFrame {
         Start.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Start.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (21)_adobespark.png"))); // NOI18N
         Start.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (20)_adobespark.png"))); // NOI18N
+        Start.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                StartMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                StartMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                StartMousePressed(evt);
+            }
+        });
         Start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 StartActionPerformed(evt);
@@ -60,6 +72,14 @@ public class MainMenu extends javax.swing.JFrame {
         Leaderboard.setBorder(null);
         Leaderboard.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Leaderboard.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Puntuaciones precionado.png"))); // NOI18N
+        Leaderboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LeaderboardMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                LeaderboardMousePressed(evt);
+            }
+        });
         Leaderboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LeaderboardActionPerformed(evt);
@@ -71,7 +91,7 @@ public class MainMenu extends javax.swing.JFrame {
         Titulo.setFont(new java.awt.Font("Retro Computer", 1, 60)); // NOI18N
         Titulo.setForeground(new java.awt.Color(255, 51, 51));
         Titulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Titulo del Main Menu.gif"))); // NOI18N
-        getContentPane().add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 200, 120));
+        getContentPane().add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 200, 110));
 
         Exit.setBackground(new java.awt.Color(0, 0,0,0));
         Exit.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
@@ -82,6 +102,14 @@ public class MainMenu extends javax.swing.JFrame {
         Exit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Exit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (19)_adobespark.png"))); // NOI18N
         Exit.setSelected(true);
+        Exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ExitMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ExitMousePressed(evt);
+            }
+        });
         Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExitActionPerformed(evt);
@@ -89,8 +117,10 @@ public class MainMenu extends javax.swing.JFrame {
         });
         getContentPane().add(Exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 160, 50));
 
-        Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo del Main Menu.gif"))); // NOI18N
-        getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 600));
+        jLabel1.setBackground(new java.awt.Color(255, 153, 51));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (1).gif"))); // NOI18N
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -102,14 +132,48 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_LeaderboardActionPerformed
 
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
+        Proyectofinal.playMusicGame(true);
+        
         this.setVisible(true);
         Proyectofinal.Start();
+        this.setVisible(false);
+        
+        
     }//GEN-LAST:event_StartActionPerformed
 
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         
         System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
+
+    private void StartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartMouseClicked
+
+    }//GEN-LAST:event_StartMouseClicked
+
+    private void StartMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartMouseEntered
+       System.out.print("a");
+       Proyectofinal.playbutton();
+    }//GEN-LAST:event_StartMouseEntered
+
+    private void LeaderboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LeaderboardMouseEntered
+           Proyectofinal.playbutton();
+    }//GEN-LAST:event_LeaderboardMouseEntered
+
+    private void ExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExitMouseEntered
+           Proyectofinal.playbutton();
+    }//GEN-LAST:event_ExitMouseEntered
+
+    private void StartMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartMousePressed
+         Proyectofinal.playbuttonpress();
+    }//GEN-LAST:event_StartMousePressed
+
+    private void LeaderboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LeaderboardMousePressed
+                 Proyectofinal.playbuttonpress();
+    }//GEN-LAST:event_LeaderboardMousePressed
+
+    private void ExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExitMousePressed
+                Proyectofinal.playbuttonpress();
+    }//GEN-LAST:event_ExitMousePressed
 
     /**
      * @param args the command line arguments
@@ -148,9 +212,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Exit;
-    private javax.swing.JLabel Fondo;
     private javax.swing.JButton Leaderboard;
     private javax.swing.JButton Start;
     private javax.swing.JLabel Titulo;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

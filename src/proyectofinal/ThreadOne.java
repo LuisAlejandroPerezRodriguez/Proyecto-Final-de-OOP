@@ -11,8 +11,8 @@ public class ThreadOne extends Thread
     private MainFrame gf;
     private int score;
     private int level=1;
-    private int ScorePerLevel=1;
-    private int Gamerunning =1000;
+    private int ScorePerLevel=400;
+    private int Gamerunning =1200;
     private int SpeedPerLevel=100;
     
     public ThreadOne(PlayArea SaveParameter,MainFrame gf )
@@ -54,12 +54,14 @@ public class ThreadOne extends Thread
             
             SaveParameter.MoveBlockToBackgroud();
             score+=SaveParameter.ClearLastLine();
-            gf.UpdateScore(score);
+            gf.UpdateScore(score);   
             
             int lvl=score/ScorePerLevel+1;
             if(lvl>level)
             {
                 level=lvl;
+                Proyectofinal.playClear(false); 
+                Proyectofinal.playLvlUp();
                 gf.UpdateLevel(level);
                 Gamerunning-=SpeedPerLevel;
             }    

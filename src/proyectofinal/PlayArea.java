@@ -90,9 +90,10 @@ public class PlayArea extends JPanel
     {
         if(block==null)return;
         if(!GridRight())return;
-        
+        Proyectofinal.playMovement();
         block.Right();
         repaint();
+        
     }
     
     public void moveBlockLeft()
@@ -101,6 +102,7 @@ public class PlayArea extends JPanel
         if(!GridLeft())return;
         block.Left();
         repaint();
+        Proyectofinal.playMovement();
     }
        
     public void moveBlockDown()
@@ -119,6 +121,7 @@ public class PlayArea extends JPanel
         if(block.getBottom()>=tableRows)block.setJ(tableRows-block.getHeight());
         
         repaint();
+        Proyectofinal.playRotation();
     }
     
 
@@ -148,7 +151,6 @@ public class PlayArea extends JPanel
              }    
          }    
       }    
-      
       return true;
     }
     
@@ -238,7 +240,34 @@ public class PlayArea extends JPanel
              repaint();
             }    
             
+        }
+        if(LinesCleared>0)
+        {    
+        Proyectofinal.playClear(true);
+        }
+        if (LinesCleared==2)
+        {  
+        return (LinesCleared-2)+20*2;
         } 
+        if(LinesCleared==3)
+        {
+          Proyectofinal.playClear(false);    
+          Proyectofinal.playRacha(); 
+          return (LinesCleared-3)+25*3; 
+        }
+         if(LinesCleared==4)
+        {
+          Proyectofinal.playClear(false);    
+          Proyectofinal.playRacha();   
+          return (LinesCleared-4)+50*4; 
+        }
+          if(LinesCleared==5)
+        {
+          Proyectofinal.playClear(false);    
+          Proyectofinal.playRacha(); 
+          return (LinesCleared-5)+100*5; 
+        }  
+        else
         return LinesCleared; 
     }  
     
@@ -283,7 +312,8 @@ public class PlayArea extends JPanel
                   BackgroundColor[q+Jposcition][e+Iposcition]  =color;
                 }    
             }    
-        }    
+        }
+         Proyectofinal.playDown();
     }        
     
     /*Este metodo lo utilizamos para dibujar una figura y vizualizarla en el area de

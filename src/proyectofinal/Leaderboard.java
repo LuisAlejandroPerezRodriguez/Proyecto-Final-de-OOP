@@ -82,18 +82,36 @@ public class Leaderboard extends javax.swing.JFrame {
         MainMenu = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         leaderboard = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(820, 600));
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        MainMenu.setBackground(new java.awt.Color(0, 0, 0,0));
+        MainMenu.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
+        MainMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (23)_adobespark.png"))); // NOI18N
         MainMenu.setText("Exit");
+        MainMenu.setBorder(null);
+        MainMenu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        MainMenu.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (24)_adobespark.png"))); // NOI18N
+        MainMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                MainMenuMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                MainMenuMousePressed(evt);
+            }
+        });
         MainMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MainMenuActionPerformed(evt);
             }
         });
+        getContentPane().add(MainMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 128, 43));
 
+        leaderboard.setBorder(new javax.swing.border.MatteBorder(null));
+        leaderboard.setFont(new java.awt.Font("Retro Computer", 0, 12)); // NOI18N
         leaderboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -117,31 +135,15 @@ public class Leaderboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        leaderboard.setSelectionBackground(new java.awt.Color(153, 255, 51));
         jScrollPane1.setViewportView(leaderboard);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(MainMenu))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(195, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(MainMenu)
-                .addGap(54, 54, 54)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 350, 270));
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0,0));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título.gif"))); // NOI18N
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 600));
 
         pack();
         setLocationRelativeTo(null);
@@ -151,14 +153,27 @@ public class Leaderboard extends javax.swing.JFrame {
         
         this.setVisible(false);
         Proyectofinal.ShowMainMenu();
+        Proyectofinal.playScore(false);
     }//GEN-LAST:event_MainMenuActionPerformed
+
+    private void MainMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainMenuMousePressed
+                 Proyectofinal.playbuttonpress();
+                  Proyectofinal.playScore(false);
+    }//GEN-LAST:event_MainMenuMousePressed
+
+    private void MainMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainMenuMouseEntered
+                Proyectofinal.playbutton();
+               
+    }//GEN-LAST:event_MainMenuMouseEntered
 
     public void AddPlayer(String PlayerName,int Score)
     {
         tm.addRow(new Object[]{PlayerName,Score});
         sorter.sort();
         SaveScoreTable();
+        Proyectofinal.playScore(true);
         this.setVisible(true);
+        
     }        
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -194,6 +209,7 @@ public class Leaderboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton MainMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable leaderboard;
     // End of variables declaration//GEN-END:variables
