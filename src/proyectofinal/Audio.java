@@ -3,6 +3,8 @@ package proyectofinal;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioSystem;
@@ -25,9 +27,16 @@ public class Audio
     private String Music1Path=SoundsFolder+"Music 2.wav";
     private String MoreScorePath=SoundsFolder+"Raccha.wav";
     private String LevelPath=SoundsFolder+"LvlUp.wav";
+    private String Track2Path=SoundsFolder+"Tetris (NES) Music - Music 01.wav";
+    private String Track3Path=SoundsFolder+"Tetris (Tengen) (NES) Music - Bradinsky.wav";
+    private String Track4Path=SoundsFolder+"Tetris (Tengen) (NES) Music - Loginska.wav";
+    private String Track5Path=SoundsFolder+"Track 8.wav";
+    private String Track6Path=SoundsFolder+"Track 9.wav";   
+    public int off;
     
     private Clip clearlinesound,gameoversound,mainmenusound,rotarsound,movesound,downsound,
-            scoresound,buttonsound,buttonpresssound,musicsound,pointsssound,lvlsound;
+            scoresound,buttonsound,buttonpresssound,musicsound,pointsssound,lvlsound,track2sound,
+            track3sound,track4sound,track5sound,track6sound;
     
     public Audio()
     {
@@ -45,6 +54,11 @@ public class Audio
             musicsound=AudioSystem.getClip();
             pointsssound=AudioSystem.getClip();
             lvlsound=AudioSystem.getClip();
+            track2sound=AudioSystem.getClip();
+            track3sound=AudioSystem.getClip();
+            track4sound=AudioSystem.getClip();
+            track5sound=AudioSystem.getClip();
+            track6sound=AudioSystem.getClip();
             
             clearlinesound.open(AudioSystem.getAudioInputStream(new File(ClearLinePath).getAbsoluteFile()));  
             gameoversound.open(AudioSystem.getAudioInputStream(new File(GameOverPath).getAbsoluteFile()));
@@ -58,12 +72,22 @@ public class Audio
             musicsound.open(AudioSystem.getAudioInputStream(new File(Music1Path).getAbsoluteFile()));
             pointsssound.open(AudioSystem.getAudioInputStream(new File(MoreScorePath).getAbsoluteFile()));
             lvlsound.open(AudioSystem.getAudioInputStream(new File(LevelPath).getAbsoluteFile()));
+            track2sound.open(AudioSystem.getAudioInputStream(new File(Track2Path).getAbsoluteFile()));
+            track3sound.open(AudioSystem.getAudioInputStream(new File(Track3Path).getAbsoluteFile()));
+            track4sound.open(AudioSystem.getAudioInputStream(new File(Track4Path).getAbsoluteFile()));
+            track5sound.open(AudioSystem.getAudioInputStream(new File(Track5Path).getAbsoluteFile()));
+            track6sound.open(AudioSystem.getAudioInputStream(new File(Track6Path).getAbsoluteFile()));
+            
+          
+           
 
             
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
             Logger.getLogger(Audio.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
+    
+          
     
     public void playClearLine(boolean p)
     {
@@ -89,6 +113,7 @@ public class Audio
     {
        if (p==true){
        mainmenusound.setFramePosition(0);
+       mainmenusound.loop(20);
        mainmenusound.start();
         } else 
          {
@@ -118,6 +143,7 @@ public class Audio
     {
        if (p==true){
        scoresound.setFramePosition(0);
+       scoresound.loop(20);
        scoresound.start();
         } else 
          {
@@ -137,15 +163,25 @@ public class Audio
        buttonpresssound.start();
     }   
     
+       
     public void playMusic(boolean p)
-    {
-        if (p==true){
-       musicsound.setFramePosition(0);
-       musicsound.start();
-        } else 
-         {
-             musicsound.stop();
-         } 
+    {    
+        Random r=new Random();
+        Clip []Tracks={musicsound,track2sound,track3sound,track4sound,track5sound,track6sound};
+        int n=r.nextInt(Tracks.length);
+          
+       if (p==true){
+        
+       Tracks[n].setFramePosition(0);
+       Tracks[n].loop(20);
+       Tracks[n].start();
+       System.out.println(n);
+       this.off=n;
+       
+        }  
+         else {
+          Tracks[this.off].stop();
+          System.out.println("off"+n);}    
     } 
     
     public void playMorePoints()

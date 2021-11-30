@@ -1,6 +1,7 @@
 
 package proyectofinal;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -80,6 +81,7 @@ public class Leaderboard extends javax.swing.JFrame {
     private void initComponents() {
 
         MainMenu = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         leaderboard = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -109,6 +111,14 @@ public class Leaderboard extends javax.swing.JFrame {
             }
         });
         getContentPane().add(MainMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 128, 43));
+
+        jButton1.setText("Clear Table");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 100, 50));
 
         leaderboard.setBorder(new javax.swing.border.MatteBorder(null));
         leaderboard.setFont(new java.awt.Font("Retro Computer", 0, 12)); // NOI18N
@@ -166,6 +176,16 @@ public class Leaderboard extends javax.swing.JFrame {
                
     }//GEN-LAST:event_MainMenuMouseEntered
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        File archivo=new File(LeaderboardFile);
+        if(archivo.delete())
+        {
+        System.out.print("Hi");
+        InitTableSorter();
+        }    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void AddPlayer(String PlayerName,int Score)
     {
         tm.addRow(new Object[]{PlayerName,Score});
@@ -209,6 +229,7 @@ public class Leaderboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton MainMenu;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable leaderboard;

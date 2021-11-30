@@ -268,7 +268,7 @@ public class PlayArea extends JPanel
           return (LinesCleared-5)+100*5; 
         }  
         else
-        return LinesCleared; 
+        return LinesCleared+10; 
     }  
     
     /* Logica para borrar lineas*/
