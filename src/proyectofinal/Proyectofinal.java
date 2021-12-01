@@ -106,6 +106,11 @@ public class Proyectofinal
     public static void playLvlUp()
     {
         audio.playLevelUp();
+    }  
+    
+    public static void PlayPause()
+    {
+        audio.playPause();
     }        
          
     

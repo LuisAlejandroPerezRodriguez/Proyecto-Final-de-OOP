@@ -11,8 +11,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private PlayArea SaveParameter;
     private ThreadOne to;
-    
-    
+
     public MainFrame() {
         
         initComponents();
@@ -43,6 +42,12 @@ public class MainFrame extends javax.swing.JFrame {
        /*Obtencion de las pulsacion de la flecha hacia abajo*/
        in.put(KeyStroke.getKeyStroke("DOWN"), "down");
        
+       /*Obtencion de la pulsacion del Esc para pausar el juego*/
+       in.put(KeyStroke.getKeyStroke("ESCAPE"),"escape");
+       
+       in.put(KeyStroke.getKeyStroke("ENTER"),"enter");
+       
+        
        /*Agrega una accion al mapa de accion*/
        ac.put("right",new AbstractAction(){
            @Override
@@ -75,6 +80,24 @@ public class MainFrame extends javax.swing.JFrame {
            }
            
        });
+       
+       ac.put("escape", new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+                 to.suspend();
+                 Proyectofinal.PlayPause();      
+           }
+           
+       });
+       
+        ac.put("enter", new AbstractAction(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+                  to.resume();
+                  Proyectofinal.playbutton();
+           }
+           
+       });
     }        
 
     /* Metodo responsable de crear un objeto tipo hilo.*/
@@ -83,6 +106,8 @@ public class MainFrame extends javax.swing.JFrame {
        SaveParameter.ResetBackgroundArray();
        to= new ThreadOne(SaveParameter,this);
        to.start();
+       this.jLabel2.setVisible(false);
+       
     } 
     
     /*Metodo encargado de actualizar los puntos obtenidos*/
@@ -104,11 +129,20 @@ public class MainFrame extends javax.swing.JFrame {
         ScoreLabel = new javax.swing.JLabel();
         LevelLabel = new javax.swing.JLabel();
         MainMenu = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         ContainThePlayArea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formKeyTyped(evt);
+            }
+        });
 
         ScoreLabel.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
         ScoreLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -143,11 +177,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Retro Computer", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 51));
+        jLabel2.setText("Pause");
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo final.png"))); // NOI18N
 
         ContainThePlayArea.setBackground(new java.awt.Color(0, 0, 0));
         ContainThePlayArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         ContainThePlayArea.setPreferredSize(new java.awt.Dimension(300, 550));
+        ContainThePlayArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ContainThePlayAreaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ContainThePlayAreaLayout = new javax.swing.GroupLayout(ContainThePlayArea);
         ContainThePlayArea.setLayout(ContainThePlayAreaLayout);
@@ -166,32 +209,38 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(354, 354, 354)
+                .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(334, 334, 334)
                 .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(390, 390, 390)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(170, 170, 170)
                 .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel1)
         );
 
         pack();
@@ -220,6 +269,19 @@ public class MainFrame extends javax.swing.JFrame {
     private void MainMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MainMenuMousePressed
         Proyectofinal.playbuttonpress();
     }//GEN-LAST:event_MainMenuMousePressed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    
+        
+    }//GEN-LAST:event_formKeyPressed
+
+    private void ContainThePlayAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ContainThePlayAreaKeyPressed
+
+    }//GEN-LAST:event_ContainThePlayAreaKeyPressed
+
+    private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
+
+    }//GEN-LAST:event_formKeyTyped
 
     
     public static void main(String args[]) {
@@ -259,5 +321,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton MainMenu;
     private javax.swing.JLabel ScoreLabel;
     private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

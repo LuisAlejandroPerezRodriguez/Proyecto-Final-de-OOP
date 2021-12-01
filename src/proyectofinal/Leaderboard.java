@@ -82,6 +82,8 @@ public class Leaderboard extends javax.swing.JFrame {
 
         MainMenu = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         leaderboard = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -112,14 +114,37 @@ public class Leaderboard extends javax.swing.JFrame {
         });
         getContentPane().add(MainMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 128, 43));
 
+        jButton1.setBackground(new java.awt.Color(255, 204, 51));
+        jButton1.setFont(new java.awt.Font("Retro Computer", 1, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (32).png"))); // NOI18N
         jButton1.setText("Clear Table");
+        jButton1.setBorder(null);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (33).png"))); // NOI18N
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1MouseEntered(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 100, 50));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 140, 50));
 
+        jLabel2.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
+        jLabel2.setText(" Nota: ");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 520, 80, 30));
+
+        jLabel3.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
+        jLabel3.setText("Al eleminar la tabla hay que reiniciar el juego.");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, 550, 60));
+
+        leaderboard.setBackground(new java.awt.Color(255, 153, 153));
         leaderboard.setBorder(new javax.swing.border.MatteBorder(null));
         leaderboard.setFont(new java.awt.Font("Retro Computer", 0, 12)); // NOI18N
         leaderboard.setModel(new javax.swing.table.DefaultTableModel(
@@ -186,6 +211,14 @@ public class Leaderboard extends javax.swing.JFrame {
         }    
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+           Proyectofinal.playbutton();
+    }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+         Proyectofinal.playbuttonpress();
+    }//GEN-LAST:event_jButton1MouseClicked
+
     public void AddPlayer(String PlayerName,int Score)
     {
         tm.addRow(new Object[]{PlayerName,Score});
@@ -231,6 +264,8 @@ public class Leaderboard extends javax.swing.JFrame {
     private javax.swing.JButton MainMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable leaderboard;
     // End of variables declaration//GEN-END:variables

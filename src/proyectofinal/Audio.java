@@ -31,12 +31,13 @@ public class Audio
     private String Track3Path=SoundsFolder+"Tetris (Tengen) (NES) Music - Bradinsky.wav";
     private String Track4Path=SoundsFolder+"Tetris (Tengen) (NES) Music - Loginska.wav";
     private String Track5Path=SoundsFolder+"Track 8.wav";
-    private String Track6Path=SoundsFolder+"Track 9.wav";   
+    private String Track6Path=SoundsFolder+"Track 9.wav";
+    private String PuasePath=SoundsFolder+"pause.wav";
     public int off;
     
     private Clip clearlinesound,gameoversound,mainmenusound,rotarsound,movesound,downsound,
             scoresound,buttonsound,buttonpresssound,musicsound,pointsssound,lvlsound,track2sound,
-            track3sound,track4sound,track5sound,track6sound;
+            track3sound,track4sound,track5sound,track6sound,pausesound;
     
     public Audio()
     {
@@ -59,6 +60,7 @@ public class Audio
             track4sound=AudioSystem.getClip();
             track5sound=AudioSystem.getClip();
             track6sound=AudioSystem.getClip();
+            pausesound=AudioSystem.getClip();
             
             clearlinesound.open(AudioSystem.getAudioInputStream(new File(ClearLinePath).getAbsoluteFile()));  
             gameoversound.open(AudioSystem.getAudioInputStream(new File(GameOverPath).getAbsoluteFile()));
@@ -77,11 +79,8 @@ public class Audio
             track4sound.open(AudioSystem.getAudioInputStream(new File(Track4Path).getAbsoluteFile()));
             track5sound.open(AudioSystem.getAudioInputStream(new File(Track5Path).getAbsoluteFile()));
             track6sound.open(AudioSystem.getAudioInputStream(new File(Track6Path).getAbsoluteFile()));
-            
-          
-           
-
-            
+            pausesound.open(AudioSystem.getAudioInputStream(new File(PuasePath).getAbsoluteFile()));
+ 
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
             Logger.getLogger(Audio.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -169,11 +168,12 @@ public class Audio
         Random r=new Random();
         Clip []Tracks={musicsound,track2sound,track3sound,track4sound,track5sound,track6sound};
         int n=r.nextInt(Tracks.length);
-          
+        
        if (p==true){
         
-       Tracks[n].setFramePosition(0);
+       Tracks[n].setFramePosition(0);     
        Tracks[n].loop(20);
+       
        Tracks[n].start();
        System.out.println(n);
        this.off=n;
@@ -194,6 +194,13 @@ public class Audio
     {
         lvlsound.setFramePosition(0);
         lvlsound.start();
+    }
+    
+    public void playPause()
+    {
+        pausesound.setFramePosition(0);
+        pausesound.start();
+        
     }        
     
 }
