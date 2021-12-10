@@ -2,15 +2,19 @@
 package proyectofinal;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_ENTER;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame{
 
+   
     private PlayArea SaveParameter;
     private ThreadOne to;
+    boolean flag=false;
 
     public MainFrame() {
         
@@ -29,7 +33,7 @@ public class MainFrame extends javax.swing.JFrame {
        InputMap in=this.getRootPane().getInputMap();
        ActionMap ac=this.getRootPane().getActionMap();
        KeyStroke keyStroke;
-       
+        final  boolean pause=false;
        /*Obtencion de las pulsacion de la flecha de la derecha*/
        in.put(KeyStroke.getKeyStroke("RIGHT"), "right");
        
@@ -85,7 +89,12 @@ public class MainFrame extends javax.swing.JFrame {
            @Override
            public void actionPerformed(ActionEvent e) {
                  to.suspend();
-                 Proyectofinal.PlayPause();      
+                 Proyectofinal.PlayPause();
+                 Proyectofinal.playMusicGame(false); 
+                // in.clear(); Inutilizar las teclas
+                
+                 
+                 
            }
            
        });
@@ -95,6 +104,7 @@ public class MainFrame extends javax.swing.JFrame {
            public void actionPerformed(ActionEvent e) {
                   to.resume();
                   Proyectofinal.playbutton();
+                  Proyectofinal.playMusicGame(true);
            }
            
        });
@@ -116,6 +126,19 @@ public class MainFrame extends javax.swing.JFrame {
         ScoreLabel.setText("Score: " + score);
     } 
     
+    public int Savedscore()
+    {
+        if(flag==true){
+    String score=Serializar.deserializarObjeto("save.dat", String.class);
+    String num=score.substring(7);
+    System.out.println("Se cargo el los puntos");
+        ScoreLabel.setText("Score: " + Integer.parseInt(num));
+        return Integer.parseInt(num);}
+         flag=false;
+        return 0;
+      
+    }        
+    
     /*Metodo encargado de actualizar el nivel*/
     public void UpdateLevel(int level)
     {
@@ -126,6 +149,8 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Cargar = new javax.swing.JButton();
+        save = new javax.swing.JButton();
         ScoreLabel = new javax.swing.JLabel();
         LevelLabel = new javax.swing.JLabel();
         MainMenu = new javax.swing.JButton();
@@ -144,6 +169,56 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        Cargar.setBackground(new java.awt.Color(0, 0, 0));
+        Cargar.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
+        Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Load.png"))); // NOI18N
+        Cargar.setText("Load");
+        Cargar.setBorder(null);
+        Cargar.setFocusable(false);
+        Cargar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Cargar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Sombreado load.png"))); // NOI18N
+        Cargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CargarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                CargarMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                CargarMousePressed(evt);
+            }
+        });
+        Cargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CargarActionPerformed(evt);
+            }
+        });
+
+        save.setBackground(new java.awt.Color(0, 0, 0));
+        save.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
+        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Save_adobespark.png"))); // NOI18N
+        save.setText("Save");
+        save.setBorder(null);
+        save.setFocusable(false);
+        save.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        save.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Sombreado save.png"))); // NOI18N
+        save.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                saveMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                saveMousePressed(evt);
+            }
+        });
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+
         ScoreLabel.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
         ScoreLabel.setForeground(new java.awt.Color(255, 255, 255));
         ScoreLabel.setText("Score: 0");
@@ -152,14 +227,14 @@ public class MainFrame extends javax.swing.JFrame {
         LevelLabel.setForeground(new java.awt.Color(255, 255, 255));
         LevelLabel.setText("Level: 1");
 
-        MainMenu.setBackground(new java.awt.Color(0,0,0,1));
+        MainMenu.setBackground(new java.awt.Color(0, 0, 0));
         MainMenu.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
-        MainMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (20)_adobespark.png"))); // NOI18N
+        MainMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Menu in ame.png"))); // NOI18N
         MainMenu.setText("Main Menu");
         MainMenu.setBorder(null);
         MainMenu.setFocusable(false);
         MainMenu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        MainMenu.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título (21)_adobespark.png"))); // NOI18N
+        MainMenu.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Sombra min.png"))); // NOI18N
         MainMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MainMenuMouseClicked(evt);
@@ -207,36 +282,42 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(334, 334, 334)
-                .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(390, 390, 390)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jLabel1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(240, 240, 240)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(90, 90, 90)
-                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(LevelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(MainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(Cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addComponent(ContainThePlayArea, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(ScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -252,6 +333,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         to.interrupt();
         Proyectofinal.ShowMainMenu();
+        flag=false;
         this.setVisible(false);
 
          
@@ -283,7 +365,42 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formKeyTyped
 
-    
+    private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
+
+    Serializar.serializarObjeto("save.dat", ScoreLabel.getText());
+    System.out.println("Se guardo el juego");
+    }//GEN-LAST:event_saveMouseClicked
+
+    private void saveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveMouseEntered
+
+    private void saveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveMousePressed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
+        flag=true;
+        Savedscore();
+      
+    }//GEN-LAST:event_CargarMouseClicked
+
+    private void CargarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CargarMouseEntered
+
+    private void CargarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CargarMousePressed
+
+    private void CargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CargarActionPerformed
+
     public static void main(String args[]) {
        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -316,11 +433,13 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton Cargar;
     private javax.swing.JPanel ContainThePlayArea;
     private javax.swing.JLabel LevelLabel;
     private javax.swing.JButton MainMenu;
     private javax.swing.JLabel ScoreLabel;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
+    private javax.swing.JButton save;
     // End of variables declaration//GEN-END:variables
 }

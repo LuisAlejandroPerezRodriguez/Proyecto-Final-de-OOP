@@ -6,8 +6,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 import javax.swing.JPanel;
+import java.io.*;
 
-public class PlayArea extends JPanel
+public class PlayArea extends JPanel implements Serializable
 {
     /*La declaracion de las variables tables indican el numero de
     filas,columnas y tamano de las celdas. Esto se aplica para el
@@ -401,4 +402,6 @@ public class PlayArea extends JPanel
       DrawBackground(g);
       DrawBlock(g);
    }
+   
+   
 }

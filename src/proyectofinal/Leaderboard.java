@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.RowSorter.SortKey;
@@ -34,6 +37,7 @@ public class Leaderboard extends javax.swing.JFrame {
         Vector CI=new Vector();
         CI.add("Player");
         CI.add("Score");
+        CI.add("Date");
         
         tm=(DefaultTableModel)leaderboard.getModel();
         
@@ -152,14 +156,14 @@ public class Leaderboard extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Player", "Score"
+                "Player", "Score", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -173,7 +177,7 @@ public class Leaderboard extends javax.swing.JFrame {
         leaderboard.setSelectionBackground(new java.awt.Color(153, 255, 51));
         jScrollPane1.setViewportView(leaderboard);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 350, 270));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, 380, 240));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0,0));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título.gif"))); // NOI18N
@@ -208,7 +212,7 @@ public class Leaderboard extends javax.swing.JFrame {
         {
         System.out.print("Hi");
         InitTableSorter();
-        }    
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
@@ -219,9 +223,9 @@ public class Leaderboard extends javax.swing.JFrame {
          Proyectofinal.playbuttonpress();
     }//GEN-LAST:event_jButton1MouseClicked
 
-    public void AddPlayer(String PlayerName,int Score)
+    public void AddPlayer(String PlayerName,int Score, LocalDate date)
     {
-        tm.addRow(new Object[]{PlayerName,Score});
+        tm.addRow(new Object[]{PlayerName,Score,date});
         sorter.sort();
         SaveScoreTable();
         Proyectofinal.playScore(true);

@@ -1,7 +1,9 @@
 
 package proyectofinal;
-
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
+import java.time.LocalDateTime;
+
 
 public class Proyectofinal 
 {
@@ -18,8 +20,8 @@ public class Proyectofinal
         playMainMenu(false);
        
 
-    }   
-    
+    }  
+              
     public static void ShowLeaderboard()
     {
         lb.setVisible(true);
@@ -43,9 +45,10 @@ public class Proyectofinal
        playGameOver();
        Proyectofinal.playMusicGame(false);
        String playerName=JOptionPane.showInputDialog("Game Over :( \n Please enter your name.");
-        
+       LocalDate date = LocalDate.now();
        mf.setVisible(false);
-       lb.AddPlayer(playerName,Score);
+       lb.AddPlayer(playerName,Score,date);
+       
     }
     
     public static void playClear(boolean p)
