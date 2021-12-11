@@ -90,6 +90,8 @@ public class Leaderboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         leaderboard = new javax.swing.JTable();
+        Enviar = new javax.swing.JButton();
+        Enviar1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -138,7 +140,7 @@ public class Leaderboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 140, 50));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 140, 50));
 
         jLabel2.setFont(new java.awt.Font("Retro Computer", 1, 14)); // NOI18N
         jLabel2.setText(" Nota: ");
@@ -179,10 +181,30 @@ public class Leaderboard extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, 380, 240));
 
+        Enviar.setBackground(new java.awt.Color(0, 204, 0));
+        Enviar.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
+        Enviar.setText("Enviar");
+        Enviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnviarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Enviar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 140, 50));
+
+        Enviar1.setBackground(new java.awt.Color(102, 102, 102));
+        Enviar1.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
+        Enviar1.setText("Recibir");
+        Enviar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Enviar1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Enviar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 140, 50));
+
         jLabel1.setBackground(new java.awt.Color(0, 0, 0,0));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Diseño sin título.gif"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 600));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, -1, 600));
 
         pack();
         setLocationRelativeTo(null);
@@ -222,6 +244,25 @@ public class Leaderboard extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
          Proyectofinal.playbuttonpress();
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void EnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarActionPerformed
+        // TODO add your handling code here:
+        UdpClient client = new UdpClient();
+        
+        client.start();
+        client.run();
+        
+        
+    }//GEN-LAST:event_EnviarActionPerformed
+
+    private void Enviar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enviar1ActionPerformed
+        // TODO add your handling code here:
+        //UdpServer server = new UdpServer();
+        //server.start();
+        ///server.run();
+        System.out.print("No disponible");
+        
+    }//GEN-LAST:event_Enviar1ActionPerformed
 
     public void AddPlayer(String PlayerName,int Score, LocalDate date)
     {
@@ -265,6 +306,8 @@ public class Leaderboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Enviar;
+    private javax.swing.JButton Enviar1;
     private javax.swing.JButton MainMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
