@@ -1,6 +1,7 @@
 
 package proyectofinal;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +31,7 @@ public class Leaderboard extends javax.swing.JFrame {
         initComponents();
         initTableData();
         InitTableSorter();
+          setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagenes/App icon v2.png")));
     }
     
     private void initTableData()

@@ -6,6 +6,7 @@
 package proyectofinal;
 
 import java.applet.AudioClip;
+import java.awt.Toolkit;
 
 /**
  *
@@ -18,6 +19,7 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
 
         Proyectofinal.playMainMenu(this.p);     
+         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Imagenes/App icon v2.png")));
     }
 
     /**
